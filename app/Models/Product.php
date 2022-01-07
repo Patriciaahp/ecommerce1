@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    const BORRADOR = 1;
+    const PUBLICADO = 2;
+
     protected $fillable = ['name', 'slug', 'description', 'price', 'subcategory_id', 'brand_id', 'quantity'];
 //protected $guarded = ['id', 'created_at', 'updated_at'];
     public function sizes(){

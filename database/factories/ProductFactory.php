@@ -19,15 +19,13 @@ class ProductFactory extends Factory
         $subcategory = Subcategory::all()->random();
         $category = $subcategory->category;
         $brand = $category->brands->random();
-        return [
-            'name' => $name,
+        return ['name' => $name,
             'slug' => Str::slug($name),
             'description' => $this->faker->text(),
             'price' => $this->faker->randomElement([19.99, 49.99, 99.99]),
             'subcategory_id' => $subcategory->id,
             'brand_id' => $brand->id,
-            'quantity'=> $subcategory->color ? null : 15,
-            'status' => 2
-        ];
+            'quantity' => $subcategory->color ? null : 15,
+            'status' => 2];
     }
 }

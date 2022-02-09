@@ -1,16 +1,16 @@
 @props(['size' => 50, 'color' => 'gray'])
 @php
-switch ($color) { //error
-case 'gray':
-$col = "#374151";
-break;
-case 'white':
-$col = "#ffffff";
-break;
-default:
-$col = "#374151";
-break;
-}
+    switch ($color) { //error
+    case 'gray':
+    $col = "#374151";
+    break;
+    case 'white':
+    $col = "#ffffff";
+    break;
+    default:
+    $col = "#374151";
+    break;
+    }
 @endphp
 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
      width="{{ $size }}" height="{{ $size }}"

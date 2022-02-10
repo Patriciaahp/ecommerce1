@@ -14,6 +14,7 @@ class SizeProduct extends Component
     protected $rules = [
         'name' => 'required'
     ];
+    protected $listeners = ['delete'];
 
     public function save()
     {
@@ -23,6 +24,7 @@ class SizeProduct extends Component
             'name' => $this->name,
         ]);
         $this->product = $this->product->fresh();
+        $this->reset('name');
     }
 
     public function edit(Size $size)
@@ -40,6 +42,13 @@ class SizeProduct extends Component
         $this->size->save();
         $this->product = $this->product->fresh();
         $this->open = false;
+    }
+
+    public function delete(Size $size)
+    {
+        $size->delete();
+        $this->product = $this->product->fresh();
+
     }
 
     public function render()

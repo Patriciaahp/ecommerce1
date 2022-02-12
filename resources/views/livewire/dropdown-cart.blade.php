@@ -6,7 +6,7 @@
                     <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-
 red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ Cart::count() }}</span>
                 @else
-                <span class="absolute top-0 right-0 inline-block w-2 h-2 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                    <span class="absolute top-0 right-0 inline-block w-2 h-2 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
 
                 </span>
                 @endif
@@ -20,14 +20,14 @@ red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ C
                         <article class="flex-1">
                             <h1 class="font-bold">{{ $item->name }}</h1>
                             <div class="flex">
-                            <p class="">Cant: {{ $item->qty }}</p>
-                           @isset($item->options['color'])
-                               <p class="mx-2">_Color:{{__(ucfirst($item->options['color']))}}</p>
+                                <p class="">Cant: {{ $item->qty }}</p>
+                                @isset($item->options['color'])
+                                    <p class="mx-2">_Color:{{__(ucfirst($item->options['color']))}}</p>
                                 @endisset
                                 @isset($item->options['size'])
                                     <p class="mx-2">{{ $item->options['size'] }}</p>
                                 @endisset
-                        </div>
+                            </div>
                             <p>{{ $item->price }} &euro;</p>
                         </article>
                     </li>
@@ -36,7 +36,7 @@ red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ C
                             No tiene agregado ningún item en el carrito
                         </p>
                     </li>
-            @endforelse
+                @endforelse
             </ul>
             @if(Cart::count())
                 <div class="px-3 py-2" >

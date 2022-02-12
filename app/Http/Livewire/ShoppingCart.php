@@ -2,19 +2,17 @@
 
 namespace App\Http\Livewire;
 
-
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 
 class ShoppingCart extends Component
 {
+
     public $listeners = ['render'];
 
-    public function destroy()
+    public function render()
     {
-        Cart::destroy();
-
-        $this->emitTo('dropdown-cart', 'render');
+        return view('livewire.shopping-cart');
     }
 
     public function delete($rowId)
@@ -23,9 +21,9 @@ class ShoppingCart extends Component
         $this->emit('render');
     }
 
-
-    public function render()
+    public function destroy()
     {
-        return view('livewire.shopping-cart');
+        Cart::destroy();
+        $this->emitTo('dropdown-cart', 'render');
     }
 }

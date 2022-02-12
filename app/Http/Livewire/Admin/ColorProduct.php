@@ -5,35 +5,31 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Color;
 use Livewire\Component;
 use App\Models\ColorProduct as TbPivot;
+
 class ColorProduct extends Component
 {
-
-    public $open = false;
-    public $color_id, $quantity;
-    public $product, $colors;
-    public $pivot, $pivot_color_id, $pivot_quantity;
-    protected $listeners = ['delete'];
-
     protected $rules = [
         'color_id' => 'required',
-        'quantity' => 'required\numeric'
+        'quantity' => 'required|numeric'
     ];
 
-    public function save(){
-        $this->validate();
-        $this->product->colors()->attach([
-            $this->color_id => [
-                'quantity' => $this->quantity
-            ]
-        ]);
-        $this->reset(['color_id', 'quantity']);
-        $this->emit('saved');
-        $this->product = $this->product->fresh();
+    protected $listeners = ['delete'];
 
-    }
+    public $product, $colors;
+    public $color_id, $quantity;
+    public $open = false;
+    public $pivot, $pivot_color_id, $pivot_quantity;
+
     public function mount()
     {
         $this->colors = Color::all();
+    }
+
+    public function render()
+    {
+        $productColors = $this->product->colors;
+
+        return view('livewire.admin.color-product', compact('productColors'));
     }
 
     public function edit(TbPivot $pivot)
@@ -53,15 +49,29 @@ class ColorProduct extends Component
         $this->open = false;
     }
 
+    public function save(){
+        $this->validate();
+        $pivot = TbPivot::where('color_id', $this->color_id)
+            ->where('product_id', $this->product->id)
+            ->first();
+        if ($pivot) {
+            $pivot->quantity += $this->quantity;
+            $pivot->save();
+        } else {
+            $this->product->colors()->attach([
+                $this->color_id => [
+                    'quantity' => $this->quantity
+                ]
+            ]);
+        }
+        $this->reset(['color_id', 'quantity']);
+        $this->emit('saved');
+        $this->product = $this->product->fresh();
+    }
+
     public function delete(TbPivot $pivot)
     {
         $pivot->delete();
         $this->product = $this->product->fresh();
-    }
-
-    public function render()
-    {
-        $productColors = $this->product->colors;
-        return view('livewire.admin.color-product', compact('productColors'));
     }
 }

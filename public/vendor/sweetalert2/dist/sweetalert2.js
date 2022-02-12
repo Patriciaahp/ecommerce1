@@ -1,5 +1,5 @@
 /*!
-* sweetalert2 v11.4.0
+* sweetalert2 v11.3.10
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -3316,7 +3316,6 @@
 
       if (innerParams.timerProgressBar) {
         show(timerProgressBar);
-        applyCustomClass(timerProgressBar, innerParams, 'timerProgressBar');
         setTimeout(() => {
           if (globalState$$1.timeout && globalState$$1.timeout.running) {
             // timer can be already stopped or unset at this point
@@ -3379,7 +3378,7 @@
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.4.0';
+  SweetAlert.version = '11.3.10';
 
   const Swal = SweetAlert; // @ts-ignore
 

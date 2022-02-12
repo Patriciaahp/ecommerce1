@@ -18,6 +18,7 @@ class WelcomeController extends Controller
                 session()->flash('flash.banner', $mensaje);
             }
         }
+
         $categories = Category::all();
         return view('welcome', compact('categories'));
     }

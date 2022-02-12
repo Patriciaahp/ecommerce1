@@ -30,10 +30,36 @@ abstract class DuskTestCase extends BaseTestCase
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
     protected function driver()
+{
+
+    $options = (new ChromeOptions)->addArguments(collect([
+        '—window-size=1920,1080',
+        ])->unless($this->hasHeadlessDisabled(), function ($items) {
+            return $items->merge([
+                "start-maximized",
+                'headless',
+                'disable-gpu',
+                '-no-sandbox',
+                '--disable-dev-shm-usage',
+                '--window-size=1920,1080',
+            ]);
+    })->all());
+
+    return RemoteWebDriver::create(
+        $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+            ChromeOptions::CAPABILITY, $options
+        )
+    );
+}
+
+    /**
+     * Determine whether the Dusk command has disabled headless mode.
+     *
+     * @return bool
+     */
+    protected function hasHeadlessDisabled()
     {
-        return RemoteWebDriver::create(
-            'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
-        );
+        return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
+               isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
-    
 }

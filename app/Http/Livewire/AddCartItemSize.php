@@ -11,7 +11,7 @@ class AddCartItemSize extends Component
 {
 
     public $product;
-    public $size_id;
+    public $size_id = "";
     public $colors = [];
     public $qty = 1;
     public $quantity = 0;
@@ -52,20 +52,20 @@ class AddCartItemSize extends Component
     }
 
     public function addItem()
-    {
-        Cart::add([
-            'id' => $this->product->id,
-            'name' => $this->product->name,
-            'qty' => $this->qty,
-            'price' => $this->product->price,
-            'weight' => 550,
-            'options' => $this->options,
-        ]);
+{
+    Cart::add([
+        'id' => $this->product->id,
+        'name' => $this->product->name,
+        'qty' => $this->qty,
+        'price' => $this->product->price,
+        'weight' => 550,
+        'options' => $this->options,
+    ]);
 
-        $this->quantity = qty_available($this->product->id, $this->color_id, $this->size_id);
-        $this->reset('qty');
-        $this->emitTo('dropdown-cart', 'render');
-    }
+    $this->quantity = qty_available($this->product->id, $this->color_id, $this->size_id);
+    $this->reset('qty');
+    $this->emitTo('dropdown-cart', 'render');
+}
 
     public function render()
     {

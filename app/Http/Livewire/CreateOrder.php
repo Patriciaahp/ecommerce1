@@ -17,10 +17,11 @@ class CreateOrder extends Component
     public $departments, $cities = [], $districts = [];
     public $department_id = '', $city_id = '', $district_id = '';
 
-    public function mount()
-    {
-        $this->departments = Department::all();
-    }
+    public $rules = [
+        'contact' => 'required',
+        'phone' => 'required',
+        'envio_type' => 'required'
+    ];
 
     public function updatedEnvioType($value)
     {
@@ -31,15 +32,21 @@ class CreateOrder extends Component
         }
     }
 
-    public $rules = [
-        'contact' => 'required',
-        'phone' => 'required',
-        'envio_type' => 'required'
-    ];
+    public function updatedDepartmentId($value){
+        $this->cities = City::where('department_id', $value)->get();
+        $this->reset(['city_id', 'district_id']);
+    }
+    public function updatedCityId($value){
+
+        $city = City::find($value);
+        $this->shipping_cost = $city->cost;
+        $this->districts = District::where('city_id', $value)->get();
+        $this->reset('district_id');
+    }
+
     public function create_order()
     {
         $rules = $this->rules;
-
         if ($this->envio_type == 2) {
             $rules['department_id'] = 'required';
             $rules['city_id'] = 'required';
@@ -56,6 +63,7 @@ class CreateOrder extends Component
         $order->envio_type = $this->envio_type;
         $order->shipping_cost = 0;
         $order->total = $this->shipping_cost + Cart::subtotal();
+
         $order->content = Cart::content();
 
         if ($this->envio_type == 2) {
@@ -78,23 +86,10 @@ class CreateOrder extends Component
         return redirect()->route('orders.payment', $order);
     }
 
-    public function updatedDepartmentId($value){
-        $this->cities = City::where('department_id', $value)->get();
-
-        $this->reset(['city_id', 'district_id']);
+    public function mount()
+    {
+        $this->departments = Department::all();
     }
-
-    public function updatedCityId($value){
-
-        $city = City::find($value);
-
-        $this->shipping_cost = $city->cost;
-
-        $this->districts = District::where('city_id', $value)->get();
-
-        $this->reset('district_id');
-    }
-
 
     public function render()
     {

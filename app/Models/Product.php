@@ -33,7 +33,7 @@ class Product extends Model
 
     public function colors()
     {
-        return $this->belongsToMany(Color::class)->withPivot('quantity');
+        return $this->belongsToMany(Color::class)->withPivot('quantity', 'id');
     }
 
     public function images()
@@ -41,10 +41,6 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
     public function getStockAttribute(){
         if ($this->subcategory->size) {
             return ColorSize::whereHas('size.product', function(Builder $query){
@@ -58,4 +54,5 @@ class Product extends Model
             return $this->quantity;
         }
     }
+
 }

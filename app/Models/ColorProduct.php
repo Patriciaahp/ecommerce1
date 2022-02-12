@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ColorProduct extends Model
 {
     use HasFactory;
-
     protected $table = 'color_product';
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
-    public function colors()
+
+    public function color()
     {
-        return $this->belongsToMany(Color::class)->withPivot('quantity', 'id');
+        return $this->belongsTo(Color::class);
     }
 }

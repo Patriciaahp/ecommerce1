@@ -1,6 +1,6 @@
 {
   "name": "sweetalert2",
-  "version": "11.4.0",
+  "version": "11.3.10",
   "repository": "sweetalert2/sweetalert2",
   "homepage": "https://sweetalert2.github.io/",
   "description": "A beautiful, responsive, customizable and accessible (WAI-ARIA) replacement for JavaScript's popup boxes, supported fork of sweetalert",
@@ -17,9 +17,9 @@
     "@sweetalert2/prettier-config": "^1.0.0",
     "@sweetalert2/stylelint-config": "^2.0.6",
     "browser-sync": "^2.27.7",
-    "cspell": "^5.17.0",
+    "cspell": "^5.15.1",
     "cypress": "^9.2.0",
-    "eslint": "^8.8.0",
+    "eslint": "^8.7.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-no-unsanitized": "^4.0.1",
@@ -79,7 +79,7 @@
   ],
   "scripts": {
     "start": "gulp develop --continue-on-error --skip-minification --skip-standalone",
-    "lint": "stylelint src/**/*.scss && eslint src cypress *.js *.ts && prettier --check src/**/*.js cypress/**/*.js *.js && cspell lint 'src/**/*.js' --no-progress --no-summary",
+    "lint": "stylelint src/**/*.scss && eslint src test cypress tools *.js *.ts && prettier --check src/**/*.js cypress/**/*.js test/**/*.{js,ts} tools/**/*.js *.js && cspell lint 'src/**/*.js' --no-progress --no-summary",
     "build": "gulp build",
     "test": "cypress run --headless",
     "check-types": "tsc --noEmit -p jsconfig.json",

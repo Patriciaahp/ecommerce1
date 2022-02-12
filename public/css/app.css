@@ -1147,6 +1147,9 @@ select {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+.mr-6 {
+  margin-right: 1.5rem;
+}
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -1225,6 +1228,9 @@ select {
 .h-full {
   height: 100%;
 }
+.h-80 {
+  height: 20rem;
+}
 .h-64 {
   height: 16rem;
 }
@@ -1233,9 +1239,6 @@ select {
 }
 .h-2 {
   height: 0.5rem;
-}
-.h-80 {
-  height: 20rem;
 }
 .h-1 {
   height: 0.25rem;

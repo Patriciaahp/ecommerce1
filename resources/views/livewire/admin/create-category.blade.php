@@ -95,7 +95,7 @@
                         </td>
                         <td class="py-2">
                             <div class="flex divide-x divide-gray-300 font-semibold">
-                                <a class="pr-2 hover:text-blue-600 cursor-pointer">Editar</a>
+                                <a class="pr-2 hover:text-blue-600 cursor-pointer" wire:click="edit('{{$category->slug}}')">Editar</a>
                                 <a class="pl-2 hover:text-red-600 cursor-pointer">Eliminar</a>
                             </div>
                         </td>
@@ -113,6 +113,12 @@
         </x-slot>
         <x-slot name="content">
             <div class="space-y-3">
+                <div>
+                    @if ($editImage)
+                        <img class="w-full h-64 object-cover object-center" src="{{ $editImage->temporaryUrl() }}" alt="">
+                    @else
+                        <img class="w-full h-64 object-cover object-center" src="{{ Storage::url($editForm['image']) }}" alt="">
+                    @endif                </div>
                 <div>
                     <x-jet-label>
                         Nombre
@@ -161,6 +167,9 @@
             </div>
         </x-slot>
         <x-slot name="footer">
+            <x-jet-danger-button>
+                Actualizar
+            </x-jet-danger-button>
         </x-slot>
     </x-jet-dialog-modal>
 

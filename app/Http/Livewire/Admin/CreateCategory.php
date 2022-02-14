@@ -16,6 +16,7 @@ class CreateCategory extends Component
     public $listeners = ['delete'];
     public $brands, $categories, $image, $image2;
 
+
     public $createForm = [
         'name' => null,
         'slug' => null,

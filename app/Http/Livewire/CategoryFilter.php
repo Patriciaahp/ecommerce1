@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 class CategoryFilter extends Component
 {
 
+    public $queryString = ['subcategoria', 'marca'];
     public $category, $subcategoria, $marca;
     public $view = 'grid';
     use WithPagination;
@@ -23,7 +24,7 @@ class CategoryFilter extends Component
         });
         if ($this->subcategoria) {
             $productsQuery = $productsQuery->whereHas('subcategory', function(Builder $query){
-                $query->where('name', $this->subcategoria);
+                $query->where('slug', $this->subcategoria);
             });
         }
         if ($this->marca) {
@@ -34,9 +35,16 @@ class CategoryFilter extends Component
         $products = $productsQuery->paginate(20);
         return view('livewire.category-filter', compact('products'));
     }
-
+    public function updatedSubcategoria()
+    {
+        $this->resetPage();
+    }
+    public function updatedMarca()
+    {
+        $this->resetPage();
+    }
     public function limpiar()
     {
-        $this->reset(['subcategoria', 'marca']);
+        $this->reset(['subcategoria', 'marca', 'page']);
     }
 }

@@ -63,9 +63,12 @@ class BrandComponent extends Component
     }
 
 
-
+    public function mount()
+    {
+        $this->getBrands();
+    }
     public function render()
     {
-        return view('livewire.admin.brand-component')->layout('layouts.asdmin');
+        return view('livewire.admin.brand-component')->layout('layouts.admin');
     }
 }

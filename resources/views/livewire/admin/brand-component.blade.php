@@ -21,7 +21,7 @@
             </x-jet-button>
         </x-slot>
     </x-jet-form-section>
-    La siguiente sección es el listado de las marcas que tiene nuestra BD:
+
     <x-jet-action-section>
         <x-slot name="title">
             Lista de marcas
@@ -57,7 +57,7 @@
             </table>
         </x-slot>
     </x-jet-action-section>
-    La tercera sección era el modal que se abre cuando queremos editar una categoría
+
     <x-jet-dialog-modal wire:model="editForm.open">
         <x-slot name="title">
             Editar marca

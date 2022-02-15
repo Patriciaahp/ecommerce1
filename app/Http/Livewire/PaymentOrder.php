@@ -6,6 +6,7 @@ use App\Models\Order;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+
 class PaymentOrder extends Component
 {
     use AuthorizesRequests;

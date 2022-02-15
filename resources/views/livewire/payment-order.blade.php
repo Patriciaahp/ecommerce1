@@ -37,7 +37,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200">
-                                @foreach($items as $items)
+                                @foreach($items as $item)
                                     <tr>
                                         <td>
                                             <div class="flex">

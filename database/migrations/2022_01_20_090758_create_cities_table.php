@@ -18,7 +18,7 @@ class CreateCitiesTable extends Migration
 
             $table->string('name');
             $table->float('cost');
-            $table->foreignId('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreignId('department_id')->references('id')->on('departments')->onDelete(' cascade');
 
             $table->timestamps();
         });

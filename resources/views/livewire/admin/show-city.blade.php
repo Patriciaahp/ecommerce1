@@ -99,7 +99,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.emitTo('admin.city-component', 'delete', districtId)
+                        Livewire.emitTo('admin.show-city', 'delete', districtId)
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',

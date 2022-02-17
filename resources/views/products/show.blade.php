@@ -11,6 +11,10 @@
                         @endforeach
                     </ul>
                 </div>
+                <div class="-mt-10 text-gray-700">
+                    <h2 class="font-bold text-lg">Descripción</h2>
+                    {!! $product->description !!}
+                </div>
             </div>
             <div>
                 <h1 class="text-xl font-bold text-trueGray-700">{{ $product->name }}</h1>

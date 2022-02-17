@@ -13,10 +13,11 @@ class UserComponent extends Component
 
     public function render()
     {
-        $users = User::where('name', 'LIKE', "%{$this->search}%")
-            ->orWhere('email', 'LIKE', "%{$this->search}%")
-            ->paginate();
-
+        $users = User::where('email', '<>', auth()->user()->email)
+            ->where(function($query){
+                $query->where('name', 'LIKE', '%' . $this->search . '%')
+                    ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+            })->orderBy('id')->paginate();
         return view('livewire.admin.user-component', compact('users'))
             ->layout('layouts.admin');
     }
@@ -24,5 +25,13 @@ class UserComponent extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+    public function assignRole(User $user, $value)
+    {
+        if ($value == '1') {
+            $user->assignRole('admin');
+        } else {
+            $user->removeRole('admin');
+        }
     }
 }

@@ -6,22 +6,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LivewireTest extends TestCase
+class LoginTest extends TestCase
 {
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function test_example()
+    /** test */
+    public function it_visit_page_of_login()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->get('/login')
+            ->assertStatus(200)
+            ->assertSee('Login');
     }
-
-
-
-
-
 }

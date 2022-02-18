@@ -9,21 +9,22 @@ use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class ExampleTest extends DuskTestCase
+class CategoryTest extends DuskTestCase
 {
-use DatabaseMigrations;
-use RefreshDatabase;
+    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
-    public function basicExample()
+    public function categories()
     {
-      $category = Category::factory()->create(['name' => 'Celulares y tablets',
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),
             'icon' => '<i class="fas fa-mobile-alt"></i>']);
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertSee('Categorías')
-                ->screenshot('categorías');
+                ->clickLink('Categorías')
+                ->assertSee('Celulares')
+                ->screenshot('categories');
         });
     }
 }

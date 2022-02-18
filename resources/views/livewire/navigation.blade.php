@@ -78,11 +78,11 @@
                     </x-slot>
                 </x-jet-dropdown>
             @endauth
-                <div class="hidden md:block">
-                    @livewire('dropdown-cart')
-                </div>
-        </div>
 
+        </div>
+        <div class="hidden md:block">
+            @livewire('dropdown-cart')
+        </div>
     </div>
     <nav id="navigation-menu" x-show="open" :class="{'block': open, 'hidden':!open}"
          class="bg-trueGray-700 bg-opacity-25 w-full absolute hidden">

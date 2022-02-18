@@ -32,6 +32,23 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Precio
                             </th>
+                            <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Descripción
+                            </th>
+
+                            <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Cantidad
+                            </th>
+                            <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Marca
+                            </th>
+                            <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Subcategoría
+                            </th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Editar</span>
                             </th>
@@ -43,8 +60,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 object-cover">
-                                        <img class="h-10 w-10 rounded-full" src="{{ $product->images->count() ? Storage::url($product->images->first()->url) :
-'img/default.jpg'}}" alt="">
+                                        <img class="h-10 w-10 rounded-full" src="{{ $product->images->count() ? Storage::url($product->images->first()->url) :'img/default.jpg'}}" alt="">
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
@@ -58,16 +74,32 @@
                                 <div class="text-sm text-gray-500">{{ $product->subcategory->name }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $product->status == 1 ? 'red' : 'green'
-}}-100 text-{{ $product->status == 1 ? 'red' : 'green' }}-800">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $product->status == 1 ? 'red' : 'green'}}-100 text-{{ $product->status == 1 ? 'red' : 'green' }}-800">
                                 {{ $product->status == 1 ? 'Borrador' : 'Publicado' }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product->price }} &euro;
                             </td>
+                            <td class=" grid grid-rows2 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ substr($product->description,0,20) }}
+                            <span class="px-4 py-2 whitespace-nowrap text-center ">
+                                <a href="{{ route('admin.products.edit', $product) }}" class=" text-indigo-600
+                                hover:text-indigo-900">...</a>
+                            </span>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $product->quantity }}
+                            </td>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $product->brand->name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $product->subcategories->id }}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                <a href="{{ route('admin.products.edit', $product) }}" class=" text-indigo-600
+                                hover:text-indigo-900">Editar</a>
                             </td>
                         </tr>
                         @endforeach

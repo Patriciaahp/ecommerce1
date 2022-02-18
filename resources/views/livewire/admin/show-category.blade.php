@@ -83,9 +83,9 @@
                 @foreach ($subcategories as $subcategory)
                     <tr>
                         <td class="py-2">
-<span class="uppercase">
-{{ $subcategory->name }}
-</span>
+                        <span class="uppercase">
+                    {{ $subcategory->name }}
+                        </span>
                         </td>
                         <td class="py-2">
                             <div class="flex divide-x divide-gray-300 font-semibold">

@@ -49,6 +49,26 @@
                             uppercase tracking-wider">
                                 Subcategoría
                             </th>
+                            <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Fecha de creación
+                            </th>
+                            <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Tallas
+                            </th>
+                            <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Stock Tallas
+                            </th>
+                            <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Color
+                            </th>
+                            <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                                Stock Color
+                            </th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Editar</span>
                             </th>
@@ -71,7 +91,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{ $product->subcategory->category->name }}</div>
-                                <div class="text-sm text-gray-500">{{ $product->subcategory->name }}</div>
+
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $product->status == 1 ? 'red' : 'green'}}-100 text-{{ $product->status == 1 ? 'red' : 'green' }}-800">
@@ -81,22 +101,45 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product->price }} &euro;
                             </td>
-                            <td class=" grid grid-rows2 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ substr($product->description,0,20) }}
-                            <span class="px-4 py-2 whitespace-nowrap text-center ">
-                                <a href="{{ route('admin.products.edit', $product) }}" class=" text-indigo-600
-                                hover:text-indigo-900">...</a>
+                            <td class=" px-6 py-4  text-sm text-gray-500">
+                            <span class=" text-center  ">
+                                <div class=" text-center" x-data="{ open: false }">
+                     <button class="whitespace-pre-wrap text-left"  x-on:click="open = ! open"> {{ strlen
+                     ($product->description) >= 30 ? (substr($product->description,0,20))  . '...':
+                                ($product->description)}}</button >
+                                    <div x-show="open" x-transition>
+                            {{ (substr($product->description,20)) }}
+                                            </div>
+                                            </div>
                             </span>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $product->quantity }}
+                                {{ $product->getStockAttribute() === 0 ? 'Sin stock' : $product->getStockAttribute()}}
                             </td>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product->brand->name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $product->subcategories->id }}
+                                {{ $product->subcategory->name }}
                             </td>
+                            <td class="px-6 py-4  text-sm text-gray-500">
+                                {{ $product->created_at }}
+                            </td>
+
+                            <td class="px-6 py-4  text-sm text-gray-500">
+                                {{ var_dump($product->color) }}
+                            </td>
+                            <td class="px-12 py-4  text-sm text-gray-500">
+                                {{ var_dump($product->color) }}
+                            </td>
+                            <td class="px-6 py-4  text-sm text-gray-500">
+                                {{ var_dump($product->color) }}
+                            </td>
+                            <td class="px-12 py-4  text-sm text-gray-500">
+                                {{ var_dump($product->color) }}
+                            </td>
+
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.products.edit', $product) }}" class=" text-indigo-600
                                 hover:text-indigo-900">Editar</a>

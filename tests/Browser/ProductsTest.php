@@ -281,8 +281,10 @@ class ProductsTest extends DuskTestCase
         $product1->images()->create([
             'url' => 'storage/enrf3.png'
         ]);
-        $this->browse(function (Browser $browser) use ($product1, $subcategory1, $product, $category, $brand,
-            $subcategory) {
+        $this->browse(function (Browser $browser) use (
+            $product1, $subcategory1, $product, $category, $brand,
+            $subcategory
+        ) {
             $browser->visit('/')
                 ->clickLink('Categorías')
                 ->pause(100)
@@ -295,5 +297,53 @@ class ProductsTest extends DuskTestCase
                 ->assertSee(ucfirst($product1->brand->name))
                 ->screenshot('subcategoryFilter');
         });
+    }
+
+
+    /** @test */
+    public function productDetails_test()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
+
+        $brand = $category->brands()->create([
+            'name' => 'marca2'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 12,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/aaa.png'
+        ]);
+        $this->browse(function (Browser $browser) use ($product, $subcategory, $category, $brand) {
+            $browser->visit('/')
+                ->pause(100)
+                ->clickLink($product->name)
+                ->pause(100)
+                ->assertSee($product->name)
+                ->assertSee(ucfirst($product->brand->name))
+                ->assertSee($product->quantity)
+                ->assertSee($product->description)
+                ->assertSee($product->price)
+                ->assertPresent('img')
+                ->assertButtonDisabled('-')
+                ->assertButtonEnabled('+')
+                ->assertButtonEnabled('AGREGAR AL CARRITO DE COMPRAS')
+                ->screenshot('ProductsDetails');
+        });
+
+
     }
 }

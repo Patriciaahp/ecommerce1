@@ -327,7 +327,7 @@ class ProductsTest extends DuskTestCase
         $product->images()->create([
             'url' => 'storage/aaa.png'
         ]);
-        $this->browse(function (Browser $browser) use ($product, $subcategory, $category, $brand) {
+        $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/')
                 ->pause(100)
                 ->clickLink($product->name)
@@ -344,6 +344,46 @@ class ProductsTest extends DuskTestCase
                 ->screenshot('ProductsDetails');
         });
 
+    }
+    /** @test */
+    public function buttonsLimits_test()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
 
+        $brand = $category->brands()->create([
+            'name' => 'marca2'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 2,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/aaa.png'
+        ]);
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/')
+                ->pause(100)
+                ->clickLink($product->name)
+                ->pause(100)
+                ->assertSee($product->name)
+                ->assertButtonDisabled('-')
+                ->assertButtonEnabled('+')
+                ->press('+')
+                ->assertButtonDisabled('+')
+                ->assertButtonEnabled('-')
+                ->screenshot('ButtonLimits');
+        });
     }
 }

@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -81,8 +83,45 @@ class LoginTest extends TestCase
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),
             'icon' => '<i class="fas fa-mobile-alt"></i>']);
+
         $this->get('/orders/create')
             ->assertStatus(302);
     }
+
+    /** @test */
+
+public function shoppingCartIsStoredInDataBase_test()
+{
+
+    $category = Category::factory()->create(['name' => 'Celulares y tablets',
+        'slug' => Str::slug('Celulares y tablets'),
+        'icon' => '<i class="fas fa-mobile-alt"></i>']);
+    $subcategory = Subcategory::create(
+        ['category_id' => 1,
+            'name' => 'Smartwatches',
+            'slug' => Str::slug('Smartwatches'),
+        ]);
+
+    $brand = $category->brands()->create([
+        'name' => 'marca2'
+    ]);
+    $product = Product::factory()->create([
+        'name' => 'casa',
+        'slug' => Str::slug('casa'),
+        'description' => 'la casa asdd',
+        'price' => 39.99,
+        'subcategory_id' => 1,
+        'brand_id' => 1,
+        'quantity' => 2,
+        'status' => 2]);
+    $product->images()->create([
+        'url' => 'storage/aaa.png'
+    ]);
+
+
+    $this->assertDatabaseHas('shoppingcart',[
+
+    ]);
+}
 
 }

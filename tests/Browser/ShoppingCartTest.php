@@ -549,4 +549,6 @@ class ShoppingCartTest extends DuskTestCase
                 ->screenshot('AssertSeeStockWithtColor');
         });
     }
+
+
 }

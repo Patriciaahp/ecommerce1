@@ -9,6 +9,7 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\Subcategory;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -54,16 +55,17 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
-            ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
+                ->pause(2000)
+                ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSeeIn('.bg-red-600', '1')
                 ->screenshot('WithoutSizeAndColor');
 
 
         });
     }
+
     /** @test */
     public function productWithColorAndSize_test()
     {
@@ -110,17 +112,18 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product2) {
             $browser->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('size')
                 ->pause(2000)
                 ->select('color')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSeeIn('.bg-red-600', '1')
                 ->screenshot('WithColorAndSize');
         });
     }
+
     /** @test */
     public function productWithColor_test()
     {
@@ -158,12 +161,12 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product3) {
             $browser->visit('/products/' . $product3->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('color')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSeeIn('.bg-red-600', '1')
                 ->screenshot('WithtColor');
         });
@@ -200,12 +203,12 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Total:')
                 ->screenshot('ShowItems');
 
@@ -244,24 +247,25 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Cant: 1')
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Cant: 3')
                 ->screenshot('ItemIncrement');
 
 
         });
     }
+
     /** @test */
     public function CanNotAddItemsToShoppingCart_test()
     {
@@ -293,13 +297,13 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Cant: 1')
                 ->assertDontSee('Cant: 2')
                 ->screenshot('ItemDontIncrement');
@@ -307,6 +311,7 @@ class ShoppingCartTest extends DuskTestCase
 
         });
     }
+
     /** @test */
     public function CanNotAddItemsWithColorAndSize_test()
     {
@@ -351,7 +356,7 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product2) {
             $browser->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('size')
                 ->pause(2000)
@@ -359,14 +364,15 @@ class ShoppingCartTest extends DuskTestCase
                 ->press('+')
                 ->pause(2000)
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Cant: 1')
                 ->assertDontSee('Cant: 2')
                 ->screenshot('CanNotAddWithColorAndSize');
         });
     }
+
     /** @test */
     public function CanNotAddproductWithColor_test()
     {
@@ -403,22 +409,20 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product3) {
             $browser->visit('/products/' . $product3->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('color')
                 ->press('+')
                 ->pause(2000)
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->press('.bg-red-600')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Cant: 1')
                 ->assertDontSee('Cant: 2')
                 ->screenshot('CanNotAddWithtColor');
         });
     }
-
-
 
 
     /** @test */
@@ -452,13 +456,14 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Stock disponible: ' . $product->quantity)
                 ->screenshot('AssertSeeStock');
 
 
         });
     }
+
     /** @test */
     public function AssertSeeStockColorAndSize_test()
     {
@@ -503,11 +508,12 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product2) {
             $browser->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Stock disponible: ' . $product2->quantity)
                 ->screenshot('AssertSeeStockWithColorAndSize');
         });
     }
+
     /** @test */
     public function AssertSeeStockWithColor_test()
     {
@@ -544,13 +550,11 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product3) {
             $browser->visit('/products/' . $product3->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->assertSee('Stock disponible: ' . $product3->quantity)
                 ->screenshot('AssertSeeStockWithtColor');
         });
     }
-
-
 
 
     /** @test */
@@ -595,15 +599,15 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $product2) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/shopping-cart')
                 ->assertSee($product->name)
                 ->assertSee($product2->name)
@@ -612,6 +616,7 @@ class ShoppingCartTest extends DuskTestCase
 
         });
     }
+
     /** @test */
     public function ChangeQuantityItemsInShoppingCartDetails_test()
     {
@@ -654,15 +659,15 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $product2) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/shopping-cart')
                 ->press('-')
                 ->pause(2000)
@@ -716,20 +721,20 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $product2) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/shopping-cart')
                 ->assertSee($product->name)
                 ->assertSee($product2->name)
                 ->press('.fa-trash')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertDontSee($product->name)
                 ->assertSee($product2->name)
                 ->screenshot('RemoveItem');
@@ -781,26 +786,83 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $product2) {
             $browser->visit('/products/' . $product->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/products/' . $product2->id)
-                -> pause(2000)
+                ->pause(2000)
                 ->press('+')
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                -> pause(2000)
+                ->pause(2000)
                 ->visit('/shopping-cart')
                 ->assertSee($product->name)
                 ->assertSee($product2->name)
-                -> pause(2000)
+                ->pause(2000)
                 ->clickLink('Borrar carrito de compras')
-                -> pause(2000)
+                ->pause(2000)
                 ->assertDontSee($product->name)
                 ->assertDontSee($product2->name)
                 ->screenshot('ClearCart');
 
 
         });
+    }
+
+    /** @test */
+    public function hidden_form_test()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
+
+        $brand = $category->brands()->create([
+            'name' => 'marca'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+
+        $user =  User::factory()->create([
+            'name' => 'Paco García',
+            'email' => 'paco@test.com',
+            'password' => bcrypt('1234'),
+        ]);
+
+        $this->browse(function (Browser $browser) use ($product, $user) {
+            $browser
+                ->visit('/login')
+                ->pause(10)
+                ->value('#email', 'paco@test.com')
+                ->value('#password', '1234')
+                ->press('INICIAR SESIÓN')
+                ->visit('/products/ ' . $product->id )
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                ->pause(2000)
+                ->visit('/shopping-cart')
+                ->assertSee($product->name)
+                ->pause(2000)
+                ->click('a.bg-red-600')
+                ->pause(2000)
+                ->assertSee('Envíos')
+                ->assertDontSee('Ciudad')
+                ->radio('envio_type', '2')
+                ->assertSee('Ciudad')
+                ->screenshot('hiddenForm') ;
+     });
     }
 }

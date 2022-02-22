@@ -27,7 +27,8 @@
             </label>
             <div class="bg-white rounded-lg shadow">
             <label class="px-6 py-4 flex items-center">
-                <input x-model="envio_type" type="radio" name="envio_type" value="2" class="text-gray-600">
+                <input  x-model="envio_type" type="radio" name="envio_type" value="2"
+                       class="text-gray-600">
                 <span class="ml-2 text-gray-700">Envío a domicilio</span>
             </label>
                 <div class="px-6 pb-6 grid grid-cols-2 gap-6" :class="{ 'hidden':envio_type !=2 }">

@@ -55,4 +55,34 @@ class LoginTest extends TestCase
             ->assertDontSee('Login');
     }
 
+
+
+/** @test */
+    public function OnlyARegisteredUserCanCreateOrders_test()
+    {
+        $user =  User::factory()->create([
+            'name' => 'Paco García',
+            'email' => 'paco@test.com',
+            'password' => bcrypt('1234'),
+        ]);
+
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $this->actingAs($user)->get('/orders/create')
+            ->assertStatus(200);
+    }
+
+
+    /** @test */
+    public function NotRegisteredUserCanNotCreateOders_test()
+    {
+
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $this->get('/orders/create')
+            ->assertStatus(302);
+    }
+
 }

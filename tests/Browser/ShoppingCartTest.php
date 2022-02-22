@@ -673,4 +673,134 @@ class ShoppingCartTest extends DuskTestCase
 
         });
     }
+
+    /** @test */
+    public function RemoveItem_test()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
+
+        $brand = $category->brands()->create([
+            'name' => 'marca'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+        $product2 = Product::factory()->create([
+            'name' => 'queso',
+            'slug' => Str::slug('queso'),
+            'description' => 'queso azul',
+            'price' => 9.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product2->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+
+        $this->browse(function (Browser $browser) use ($product, $product2) {
+            $browser->visit('/products/' . $product->id)
+                -> pause(2000)
+                ->press('+')
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                -> pause(2000)
+                ->visit('/products/' . $product2->id)
+                -> pause(2000)
+                ->press('+')
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                -> pause(2000)
+                ->visit('/shopping-cart')
+                ->assertSee($product->name)
+                ->assertSee($product2->name)
+                ->press('.fa-trash')
+                -> pause(2000)
+                ->assertDontSee($product->name)
+                ->assertSee($product2->name)
+                ->screenshot('RemoveItem');
+
+
+        });
+    }
+
+
+    /** @test */
+    public function ClearCart()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
+
+        $brand = $category->brands()->create([
+            'name' => 'marca'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+        $product2 = Product::factory()->create([
+            'name' => 'queso',
+            'slug' => Str::slug('queso'),
+            'description' => 'queso azul',
+            'price' => 9.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product2->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+
+        $this->browse(function (Browser $browser) use ($product, $product2) {
+            $browser->visit('/products/' . $product->id)
+                -> pause(2000)
+                ->press('+')
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                -> pause(2000)
+                ->visit('/products/' . $product2->id)
+                -> pause(2000)
+                ->press('+')
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                -> pause(2000)
+                ->visit('/shopping-cart')
+                ->assertSee($product->name)
+                ->assertSee($product2->name)
+                -> pause(2000)
+                ->clickLink('Borrar carrito de compras')
+                -> pause(2000)
+                ->assertDontSee($product->name)
+                ->assertDontSee($product2->name)
+                ->screenshot('ClearCart');
+
+
+        });
+    }
 }

@@ -921,4 +921,61 @@ class ShoppingCartTest extends DuskTestCase
                 ->screenshot('completedOrder') ;
         });
     }
+
+    /** @test */
+    public function order_resume_is_correct_test()
+    {
+        $category = Category::factory()->create(['name' => 'Celulares y tablets',
+            'slug' => Str::slug('Celulares y tablets'),
+            'icon' => '<i class="fas fa-mobile-alt"></i>']);
+        $subcategory = Subcategory::create(
+            ['category_id' => 1,
+                'name' => 'Smartwatches',
+                'slug' => Str::slug('Smartwatches'),
+            ]);
+
+        $brand = $category->brands()->create([
+            'name' => 'marca'
+        ]);
+        $product = Product::factory()->create([
+            'name' => 'casa',
+            'slug' => Str::slug('casa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 3,
+            'status' => 2]);
+        $product->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
+
+        $user =  User::factory()->create([
+            'name' => 'Paco García',
+            'email' => 'paco@test.com',
+            'password' => bcrypt('1234'),
+        ]);
+
+        $this->browse(function (Browser $browser) use ($product, $user) {
+            $browser
+                ->loginAs($user)
+                ->visit('/products/ ' . $product->id )
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                ->pause(2000)
+                ->visit('/shopping-cart')
+                ->assertSee($product->name)
+                ->pause(2000)
+                ->click('a.bg-red-600')
+                ->type('name', 'Paco García')
+                ->type('phone', '453533234')
+                ->click('.order-2 .bg-gray-800')
+                ->pause(2000)
+                ->assertPathIs('/orders/1/payment')
+                ->assertSee($user->name)
+                ->assertSee('Los productos deben ser recogidos en tienda')
+                ->assertSee($product->price)
+                ->assertSee($product->name)
+                ->screenshot('order-resume') ;
+        });
+    }
 }

@@ -903,11 +903,7 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $user) {
             $browser
-                ->visit('/login')
-                ->pause(10)
-                ->value('#email', 'paco@test.com')
-                ->value('#password', '1234')
-                ->press('INICIAR SESIÓN')
+                ->loginAs($user)
                 ->visit('/products/ ' . $product->id )
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
                 ->pause(2000)
@@ -915,10 +911,13 @@ class ShoppingCartTest extends DuskTestCase
                 ->assertSee($product->name)
                 ->pause(2000)
                 ->click('a.bg-red-600')
-                ->value('#name', 'Paco García')
-                ->value('#phone', '453533234')
+                ->type('name', 'Paco García')
+                ->type('phone', '453533234')
                     ->click('.order-2 .bg-gray-800')
                 ->pause(2000)
+                ->assertPathIs('/orders/1/payment')
+                ->visit('/shopping-cart')
+                ->assertSee('TU CARRITO DE COMPRAS ESTÁ VACÍO')
                 ->screenshot('completedOrder') ;
         });
     }

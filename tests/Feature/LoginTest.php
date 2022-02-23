@@ -146,7 +146,7 @@ public function shoppingCartIsStoredInDataBase_test()
     ->assertSee($product->name);
 }
 
-
+/** @test */
 
     public function route_verification_test()
     {
@@ -181,25 +181,13 @@ public function shoppingCartIsStoredInDataBase_test()
             'password' => bcrypt('1234'),
         ]);
 
-        $this->actingAs($user)
-        ->get('/login')
-            ->assertRedirect(route('/dashboard'));
-        Cart::add([
-            'id' => $product->id,
-            'name' => $product->name,
-            'qty' => 2,
-            'price' => $product->price,
-            'weight' => 550,
 
-        ]);
         $this->get('/orders/create')
-            ->assertRedirect(route('/orders/1/payment'));
-
-        Auth::logout();
-        $this->get('/orders/create')
-      ->assertRedirect(route('/login'));
+            ->assertStatus(302);
 
 
+        $this->actingAs($user)->get('/orders/create')
+            ->assertOk();
     }
 
 

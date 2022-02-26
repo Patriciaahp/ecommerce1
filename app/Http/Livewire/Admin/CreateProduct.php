@@ -12,6 +12,9 @@ use Livewire\Component;
 
 class CreateProduct extends Component
 {
+    public $categories, $subcategories = [], $brands = [];
+    public $category_id = '', $subcategory_id = '', $brand_id = '';
+    public $name, $slug, $description, $price, $quantity;
 
     protected $rules = [
         'category_id' => 'required',
@@ -23,9 +26,6 @@ class CreateProduct extends Component
         'price' => 'required',
     ];
 
-    public $categories, $subcategories = [], $brands = [];
-    public $category_id = '', $subcategory_id = '', $brand_id = '';
-    public $name, $slug, $description, $price, $quantity;
 
     public function mount()
     {
@@ -50,10 +50,7 @@ class CreateProduct extends Component
         return Subcategory::find($this->subcategory_id);
     }
 
-    public function render()
-    {
-        return view('livewire.admin.create-product')->layout('layouts.admin');
-    }
+
 
     public function save()
     {
@@ -76,5 +73,10 @@ class CreateProduct extends Component
         $product->save();
 
         return redirect()->route('admin.products.edit', $product);
+    }
+
+    public function render()
+    {
+        return view('livewire.admin.create-product')->layout('layouts.admin');
     }
 }

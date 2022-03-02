@@ -10,21 +10,27 @@
             </x-button-link>
         </div>
     </x-slot>
-
+    <div class="grid grid-rows-2 space-y-3 " >
+    <select class="w-20 h-8 ml-4 " wire:model="per_page">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+    </select>
     <div   x-data="{ open: false }">
-        <button clasS="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
+        <button class="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
 
-        <div class="grid-cols-1 grid ml-4  " x-show="open">
+        <div class=" ml-2 grid grid-cols-4 " x-show="open">
             @foreach($columns as $column)
-                <input type="checkbox" wire:model="selectedColumns" value="{{$column}}">
-                <label>{{$column}}</label>
+                <input  type="checkbox" wire:model="selectedColumns" value="{{$column}}">
+                <label class="col-2" >{{$column}}</label>
             @endforeach
         </div>
 
 
 
     </div>
-
+    </div>
     <div class="p-4">
         <div class="px-6 py-4">
             <x-jet-input class="w-full"

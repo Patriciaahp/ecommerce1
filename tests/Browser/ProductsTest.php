@@ -135,6 +135,19 @@ class ProductsTest extends DuskTestCase
         $product->images()->create([
             'url' => 'storage/enrf3.png'
         ]);
+
+        $product6 = Product::factory()->create([
+            'name' => 'mesa',
+            'slug' => Str::slug('mesa'),
+            'description' => 'la casa asdd',
+            'price' => 39.99,
+            'subcategory_id' => 1,
+            'brand_id' => 1,
+            'quantity' => 12,
+            'status' => 2]);
+        $product6->images()->create([
+            'url' => 'storage/enrf3.png'
+        ]);
         $product1 = Product::factory()->create([
             'name' => 'casaaaa',
             'slug' => Str::slug('casaaaa'),
@@ -185,10 +198,12 @@ class ProductsTest extends DuskTestCase
         ]);
 
 
-        $this->browse(function (Browser $browser) use ($product, $product1, $product2, $product3, $product4) {
+        $this->browse(function (Browser $browser) use ($product6, $product, $product1, $product2, $product3,
+            $product4) {
             $browser->visit('/')
                 ->pause(100)
                 ->assertDontSee($product->name)
+                ->assertSee($product6->name)
                 ->assertDontSee($product1->name)
                 ->assertDontSee($product2->name)
                 ->assertDontSee($product3->name)
@@ -197,110 +212,7 @@ class ProductsTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function categoryDetails_test()
-    {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
 
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-        $brand = $category->brands()->create([
-            'name' => 'marca1'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 12,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-        $this->browse(function (Browser $browser) use ($product) {
-            $browser->visit('/categories/celulares-y-tablets')
-                ->pause(100)
-                ->assertSee($product->name)
-                ->assertSee($product->price)
-                ->assertSee(ucfirst($product->brand->name))
-                ->assertSee($product->subcategory->name)
-                ->assertSee($product->subcategory->category->name)
-                ->screenshot('categoryDetails');
-        });
-    }
-
-    /** @test */
-    public function subcategoryFilter_test()
-    {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand1 = $category->brands()->create([
-            'name' => 'marca2'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 12,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-
-        $subcategory1 = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Accesorios para celulares',
-                'slug' => Str::slug('Accesorios para celulares'),
-            ]);
-        $brand = $category->brands()->create([
-            'name' => 'marca1'
-        ]);
-        $product1 = Product::factory()->create([
-            'name' => 'coche',
-            'slug' => Str::slug('coche'),
-            'description' => 'la coche asdd',
-            'price' => 39.99,
-            'subcategory_id' => 2,
-            'brand_id' => 2,
-            'quantity' => 13,
-            'status' => 2]);
-        $product1->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-        $this->browse(function (Browser $browser) use (
-            $product1, $subcategory1, $product, $category, $brand,
-            $subcategory
-        ) {
-            $browser->visit('/')
-                ->clickLink('Categorías')
-                ->pause(100)
-                ->clickLink($subcategory->name)
-                ->assertSee($product->name)
-                ->assertSee(ucfirst($product->brand->name))
-                ->clickLink($subcategory1->name)
-                ->pause(100)
-                ->assertSee($product1->name)
-                ->assertSee(ucfirst($product1->brand->name))
-                ->screenshot('subcategoryFilter');
-        });
-    }
 
 
     /** @test */

@@ -28,7 +28,6 @@ class CreateProductsTest extends TestCase
    public function can_create_product_test()
 
     {
-
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),
             'icon' => '<i class="fas fa-mobile-alt"></i>']);

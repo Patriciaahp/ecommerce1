@@ -80,8 +80,6 @@ public function stock_updates_in_db_making_an_order_test(){
 
     $order->content = Cart::content();
 
-
-
     $order->save();
 
     foreach (Cart::content() as $item) {

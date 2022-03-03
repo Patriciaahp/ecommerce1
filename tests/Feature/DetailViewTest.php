@@ -20,7 +20,7 @@ class DetailViewTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function getDetailView_test()
+    public function getDetailViewProduct_test()
     {
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),

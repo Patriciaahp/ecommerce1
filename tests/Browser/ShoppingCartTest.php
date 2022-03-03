@@ -659,18 +659,19 @@ class ShoppingCartTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($product, $product2) {
             $browser->visit('/products/' . $product->id)
-                ->pause(2000)
-                ->press('+')
+                ->pause(200)
+
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
                 ->pause(2000)
                 ->visit('/products/' . $product2->id)
-                ->pause(2000)
-                ->press('+')
+                ->pause(200)
                 ->press('AGREGAR AL CARRITO DE COMPRAS')
-                ->pause(2000)
+                ->pause(200)
                 ->visit('/shopping-cart')
-                ->press('-')
-                ->pause(2000)
+                ->assertSee($product->price + $product2->price)
+                ->press('+')
+                ->pause(200)
+                ->assertSee($product->price * 2 + $product2->price)
                 ->assertSee($product->name)
                 ->assertSee($product2->name)
                 ->screenshot('QuantityShoppingCartDetails');

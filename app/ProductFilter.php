@@ -74,8 +74,4 @@ class ProductFilter extends QueryFilter
 
     }
 
-    public function trashed($query, $value)
-    {
-        $query->onlyTrashed();
-    }
 }

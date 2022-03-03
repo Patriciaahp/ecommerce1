@@ -26,9 +26,6 @@
                 <label class="col-2" >{{$column}}</label>
             @endforeach
         </div>
-
-
-
     </div>
     </div>
     <div class="p-4">

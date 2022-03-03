@@ -224,7 +224,7 @@ class ProductsTest extends DuskTestCase
         $product->images()->create([
             'url' => 'storage/enrf3.png'
         ]);
-        $this->browse(function (Browser $browser) use ($product, $category, $brand, $subcategory) {
+        $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/categories/celulares-y-tablets')
                 ->pause(100)
                 ->assertSee($product->name)

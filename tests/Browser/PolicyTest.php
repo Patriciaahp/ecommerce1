@@ -17,7 +17,7 @@ class PolicyTest extends DuskTestCase
 
     use DatabaseMigrations;
     use RefreshDatabase;
-
+/** @test */
     public function stock_changes_adding_to_cart_test()
     {
 

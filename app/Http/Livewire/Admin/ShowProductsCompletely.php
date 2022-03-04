@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Category;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,9 +15,12 @@ class ShowProductsCompletely extends Component
 {
     protected $queryString = [
         'search' => ['except' => ''],
+        'category' => ['except' => ''],
     ];
     public $per_page = 15;
     public $search;
+    public $category = '';
+    public $categories;
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
 'Fecha de creación', 'Tallas', 'Color', 'Stock'];
@@ -42,6 +46,7 @@ class ShowProductsCompletely extends Component
         public function mount()
     {
         $this->selectedColumns = $this->columns;
+        $this->categories = Category::all();
 
     }
 
@@ -55,6 +60,7 @@ class ShowProductsCompletely extends Component
         $products = Product::query()
             ->filterBy($productFilter, array_merge(
                 ['search' => $this->search,
+                    'category' => $this->category,
                     ]
             ))
             ->orderByDesc('created_at')

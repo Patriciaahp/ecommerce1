@@ -12,6 +12,7 @@ class ProductFilter extends QueryFilter
     {
         return [
             'search' => 'filled',
+            'category' => 'exists:categories,id',
 
         ];
     }
@@ -19,6 +20,16 @@ class ProductFilter extends QueryFilter
     {
         $query->where('name', 'LIKE', "%{$search}%");
 
+
+    }
+    public function category($query, $category)
+    {
+         $query->where(function ($query) use($category) {
+
+         $query->whereHas('subcategory', function ($q) use($category) {
+            $q->where('subcategories.category_id', $category);
+        });
+        });
 
     }
 

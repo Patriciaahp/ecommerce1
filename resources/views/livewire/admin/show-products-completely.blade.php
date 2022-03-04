@@ -29,6 +29,14 @@
             </div>
     </div>
     </div>
+    <div>
+        <select wire:model="category">
+            <option value='' selected disabled>Categoría</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="p-4">
         <div class="px-6 py-4">
             <x-jet-input class="w-full"
@@ -36,6 +44,7 @@
                          type="text"
                          placeholder="Introduzca el nombre del producto a buscar" />
         </div>
+
         @if($products->count())
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

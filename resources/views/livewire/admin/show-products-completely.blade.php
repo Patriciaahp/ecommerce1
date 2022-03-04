@@ -17,15 +17,16 @@
         <option value="20">20</option>
         <option value="50">50</option>
     </select>
-    <div   x-data="{ open: false }">
-        <button class="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
 
-        <div class=" ml-2 grid grid-cols-4 " x-show="open">
-            @foreach($columns as $column)
-                <input  type="checkbox" wire:model="selectedColumns" value="{{$column}}">
-                <label class="col-2" >{{$column}}</label>
-            @endforeach
-        </div>
+        <div   x-data="{ open: false }">
+            <button class="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
+
+            <div class=" ml-2 grid grid-cols-4 " x-show="open">
+                @foreach($columns as $column)
+                    <input  type="checkbox" wire:model="selectedColumns" value="{{$column}}">
+                    <label class="col-2" >{{$column}}</label>
+                @endforeach
+            </div>
     </div>
     </div>
     <div class="p-4">
@@ -114,12 +115,7 @@
                         Tallas
 
                     </th>
-                        @endif
-                        @if(in_array('Stock de talla', $selectedColumns))
-                    <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
-                            uppercase tracking-wider">
-                        Stock Tallas
-                    </th>
+
                         @endif
                         @if(in_array('Color', $selectedColumns))
                     <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
@@ -129,15 +125,13 @@
 
                     </th>
                         @endif
-                        @if(in_array('Stock de color', $selectedColumns))
+                        @if(in_array('Stock', $selectedColumns))
                     <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
                             uppercase tracking-wider">
-                        Stock Color
+                        Stock
                     </th>
                         @endif
-                    <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Editar</span>
-                    </th>
+
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -223,32 +217,39 @@
                         </td>
                             @endif
                             @if(in_array('Tallas', $selectedColumns))
+                                <td class="px-6 py-4  text-sm text-gray-500">
+                                    {{  $product->sizes->count() ? ' ' : 'Sin stock' }}
+                                    @foreach($product->sizes as $size)
+                                        <p>{{ __(ucfirst($size->name)) }}</p>
+                                        @foreach($size->colors as $color)
+                                            <p>{{ __(ucfirst($color->name)) . '->' . $color->pivot->quantity  }}</p>
+
+                                        @endforeach
+                                    @endforeach
+                                </td>
+                            @endif
+
+
+
+
+
+                        @if(in_array('Color', $selectedColumns))
                         <td class="px-6 py-4  text-sm text-gray-500">
-                            {{ var_dump($product->color) }}
+
+                            {{  $product->colors->count() ? ' ' : 'Sin stock' }}
+
+                            @foreach($product->colors as $color)
+                                <p>{{ __(ucfirst($color->name))  . '->' . $color->pivot->quantity }}</p>
+
+                            @endforeach
                         </td>
                             @endif
-                            @if(in_array('Stock de talla', $selectedColumns))
+                            @if(in_array('Stock', $selectedColumns))
                         <td class="px-12 py-4  text-sm text-gray-500">
-                            {{ var_dump($product->color) }}
-                        </td>
-                            @endif
-                            @if(in_array('Color', $selectedColumns))
-                        <td class="px-6 py-4  text-sm text-gray-500">
-
-                            {{ var_dump($product->color) }}
-
-                        </td>
-                            @endif
-                            @if(in_array('Stock de color', $selectedColumns))
-                        <td class="px-12 py-4  text-sm text-gray-500">
-                            {{ var_dump($product->color) }}
+                            {{ $product->stock }}
                         </td>
                             @endif
 
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="{{ route('admin.products.edit', $product) }}" class=" text-indigo-600
-                                hover:text-indigo-900">Editar</a>
-                        </td>
                     </tr>
                 @endforeach
                 </tbody>

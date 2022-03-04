@@ -19,7 +19,7 @@ class ShowProductsCompletely extends Component
     public $search;
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
-'Fecha de creación', 'Tallas', 'Color', 'Stock', 'Stock de color', 'Stock de talla'];
+'Fecha de creación', 'Tallas', 'Color', 'Stock'];
     public $selectedColumns = [];
 
     public function updatingPerPage()

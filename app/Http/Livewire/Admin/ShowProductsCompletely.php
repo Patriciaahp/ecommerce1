@@ -24,6 +24,8 @@ class ShowProductsCompletely extends Component
     public $subcategories;
     public $brand = 'all';
     public $brands;
+    public $priceFrom ;
+    public $priceTo ;
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
 'Fecha de creación', 'Tallas', 'Color', 'Stock'];
@@ -34,6 +36,8 @@ class ShowProductsCompletely extends Component
         'category' => ['except' => 'all'],
         'subcategory' => ['except' => 'all'],
         'brand' => ['except' => 'all' ],
+        'priceFrom' => [ 'except' => 'all' ],
+        'priceTo' => ['except' => 'all']
     ];
     public function updatingPerPage()
     {
@@ -48,6 +52,10 @@ class ShowProductsCompletely extends Component
         $this->resetPage();
     }
     public function updatingSubcategory()
+    {
+        $this->resetPage();
+    }
+    public function updatingPrice()
     {
         $this->resetPage();
     }
@@ -74,6 +82,7 @@ class ShowProductsCompletely extends Component
         $this->subcategories = Subcategory::all();
         $this->brands = Brand::all();
 
+
     }
 
     public function showColumn($column)
@@ -89,6 +98,8 @@ class ShowProductsCompletely extends Component
                     'category' => $this->category,
                     'subcategory' => $this->subcategory,
                     'brand' => $this->brand,
+                    'priceFrom' => $this->priceFrom,
+                    'priceTo' => $this->priceTo,
                     ]
             ))
             ->orderByDesc('created_at')

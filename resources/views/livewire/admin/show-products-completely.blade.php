@@ -55,6 +55,22 @@
     </div>
     <div class="p-4">
         <div class="px-6 py-4">
+            <x-jet-input class="w-20"
+                         wire:model="priceFrom"
+                         type="text"
+                         placeholder="Desde" />
+        </div>
+
+        <div class="p-4">
+            <div class="px-6 py-4">
+                <x-jet-input class="w-20"
+                             wire:model="priceTo"
+                             type="text"
+                             placeholder="Hasta" />
+            </div>
+
+            <div class="p-4">
+        <div class="px-6 py-4">
             <x-jet-input class="w-full"
                          wire:model="search"
                          type="text"

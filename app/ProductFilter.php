@@ -15,6 +15,8 @@ class ProductFilter extends QueryFilter
             'category' => 'exists:categories,id',
             'subcategory' => 'exists:subcategories,id',
             'brand' => 'exists:brands,id',
+            'priceFrom' => 'numeric',
+             'priceTo' => 'numeric',
 
         ];
     }
@@ -42,6 +44,14 @@ class ProductFilter extends QueryFilter
     public function brand($query, $brand)
     {
         $query->where('brand_id', $brand);
+    }
+    public function priceFrom($query, $price)
+    {
+        $query->where('price', '>=', $price);
+    }
+    public function priceTo($query, $price)
+    {
+        $query->where('price', '<=', $price);
     }
 
 

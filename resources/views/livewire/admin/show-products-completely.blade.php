@@ -31,9 +31,17 @@
     </div>
     <div>
         <select wire:model="category">
-            <option value='' selected disabled>Categoría</option>
+            <option value='all' selected disabled>Categoría</option>
             @foreach($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <select wire:model="subcategory">
+            <option value='all' selected disabled>Subcategoría</option>
+            @foreach($subcategories as $subcategory)
+                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
             @endforeach
         </select>
     </div>

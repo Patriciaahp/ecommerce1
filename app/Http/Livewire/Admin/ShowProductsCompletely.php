@@ -28,7 +28,8 @@ class ShowProductsCompletely extends Component
     public $priceTo ;
     public $dateFrom;
     public $dateTo;
-
+    public $sortColumn = 'name';
+    public $sortDirection = 'asc';
 
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
@@ -78,6 +79,13 @@ class ShowProductsCompletely extends Component
     {
         $this->resetPage();
     }
+
+    public function sort($column)
+    {
+        $this->sortColumn = $column;
+        $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc' ;
+    }
+
     public function updatedCategory($value)
     {
         $this->subcategories = Subcategory::where('category_id', $value)->get();
@@ -123,7 +131,7 @@ class ShowProductsCompletely extends Component
                     'dateTo' => $this->dateTo,
                     ]
             ))
-            ->orderByDesc('created_at')
+            ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate($this->per_page);
 
         $products->appends($productFilter->valid());

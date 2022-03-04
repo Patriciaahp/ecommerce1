@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\ProductFilter;
+use App\ProductQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +17,15 @@ class Product extends Model
 
     protected $fillable = ['name', 'slug', 'description', 'price', 'subcategory_id', 'brand_id', 'quantity'];
     //protected $guarded = ['id', 'created_at', 'updated_at'];
+    public function newEloquentBuilder($query)
+    {
+        return new ProductQuery($query);
+    }
 
+    public function scopeFilterBy($query, ProductFilter $filters, array $data)
+    {
+        return $filters->applyto($query, $data);
+    }
     public function sizes()
     {
         return $this->hasMany(Size::class);

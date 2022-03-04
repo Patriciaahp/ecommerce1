@@ -31,17 +31,13 @@ class ShowProductsCompletely extends Component
         $this->resetPage();
     }
 
-    public function render()
+    public function render(ProductFilter $productFilter)
     {
-        $products = Product::where('name', 'LIKE', "%{$this->search}%")
-            ->paginate($this->per_page);
-
-
-        return view('livewire.admin.show-products-completely', compact('products'))->layout('layouts.admin');
+        return view('livewire.admin.show-products-completely',
+            ['products' => $this->getProducts($productFilter)])->layout
+    ('layouts.admin');
 
     }
-
-
 
         public function mount()
     {
@@ -59,14 +55,10 @@ class ShowProductsCompletely extends Component
         $products = Product::query()
             ->filterBy($productFilter, array_merge(
                 ['search' => $this->search,
-                    'from' => request('from'),
-                    'to' => request('to'),
-                    'order' => request('order'),
-                    'direction' => request('direction')]
-
+                    ]
             ))
             ->orderByDesc('created_at')
-            ->paginate();
+            ->paginate($this->per_page);
 
         $products->appends($productFilter->valid());
 

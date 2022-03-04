@@ -131,6 +131,8 @@ class ShowProductsCompletely extends Component
                     'dateTo' => $this->dateTo,
                     ]
             ))
+            ->join('subcategories', 'subcategories.id', 'products.subcategory_id')
+            ->select('products.*')
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate($this->per_page);
 

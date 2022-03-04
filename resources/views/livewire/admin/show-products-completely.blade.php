@@ -111,7 +111,7 @@
                 <thead class="bg-gray-50">
                 <tr>
                     @if(in_array('Nombre', $selectedColumns))
-                    <th wire:click="sort('name')" scope="col" class="px-6 py-3 text-left text-xs font-medium
+                    <th wire:click="sort('products.name')" scope="col" class="px-6 py-3 text-left text-xs font-medium
                     text-gray-500
                     uppercase
                     tracking-wider">
@@ -168,7 +168,9 @@
                     </th>
                         @endif
                         @if(in_array('Subcategoría', $selectedColumns))
-                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500
+                    <th wire:click="sort('subcategories.name')" scope="col" class=" px-6 py-3 text-left text-xs
+                    font-medium
+                    text-gray-500
                             uppercase tracking-wider">
 
                         Subcategoría

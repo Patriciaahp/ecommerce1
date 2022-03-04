@@ -17,12 +17,55 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Tests\TestHelpers;
 
 
 class ShoppingCartTest extends DuskTestCase
 {
     use RefreshDatabase;
     use DatabaseMigrations;
+    use TestHelpers;
+
+
+    /** @test */
+    public function it_stores_products_added_to_cart_test()
+    {
+        $product = $this->createProduct();
+        $product2 = $this->createProductOther();
+        $user = $this->createUser();
+
+        $this->browse(function (Browser $browser) use ($user, $product, $product2) {
+            $browser
+                ->visit('/products/' . $product->id)
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                ->pause(200)
+                  ->visit('/products/' . $product2->id)
+                ->press('+')
+                ->pause(200)
+                ->press('AGREGAR AL CARRITO DE COMPRAS')
+                ->pause(200)
+                ->visit('/shopping-cart')
+                ->pause(200)
+                ->assertSee($product->name)
+                ->assertSeeIn('tbody>tr:nth-child(1)>td:nth-child(3)', '1')
+                ->assertSee($product->price)
+                ->assertSee($product2->name)
+                ->assertSeeIn('tbody>tr:nth-child(2)>td:nth-child(3)', '2')
+                ->assertSee($product2->price)
+               ->logout()
+            ->loginAs($user)
+                ->pause(200)
+                ->visit('/shopping-cart')
+                ->pause(200)
+                ->assertSee($product->name)
+                ->assertSeeIn('tbody>tr:nth-child(1)>td:nth-child(3)', '1')
+                ->assertSee($product->price)
+                ->assertSee($product2->name)
+                ->assertSeeIn('tbody>tr:nth-child(2)>td:nth-child(3)', '2')
+                ->assertSee($product2->price)
+                ->screenshot('add_to_cart');
+        });
+    }
 
     /** @test */
     public function productsWithoutColorAndSize_test()

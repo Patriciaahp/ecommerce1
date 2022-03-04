@@ -26,6 +26,10 @@ class ShowProductsCompletely extends Component
     public $brands;
     public $priceFrom ;
     public $priceTo ;
+    public $dateFrom;
+    public $dateTo;
+
+
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
 'Fecha de creación', 'Tallas', 'Color', 'Stock'];
@@ -36,8 +40,11 @@ class ShowProductsCompletely extends Component
         'category' => ['except' => 'all'],
         'subcategory' => ['except' => 'all'],
         'brand' => ['except' => 'all' ],
-        'priceFrom' => [ 'except' => 'all' ],
-        'priceTo' => ['except' => 'all']
+        'priceFrom' => [ 'except' => '' ],
+        'priceTo' => ['except' => ''],
+        'dateFrom' => ['except' => ''],
+        'dateTo' => ['except' => ''],
+
     ];
     public function updatingPerPage()
     {
@@ -55,7 +62,19 @@ class ShowProductsCompletely extends Component
     {
         $this->resetPage();
     }
-    public function updatingPrice()
+    public function updatingPriceFrom()
+    {
+        $this->resetPage();
+    }
+    public function updatingPriceTo()
+    {
+        $this->resetPage();
+    }
+    public function updatingDateFrom()
+    {
+        $this->resetPage();
+    }
+    public function updatingDateTo()
     {
         $this->resetPage();
     }
@@ -100,6 +119,8 @@ class ShowProductsCompletely extends Component
                     'brand' => $this->brand,
                     'priceFrom' => $this->priceFrom,
                     'priceTo' => $this->priceTo,
+                    'dateFrom' => $this->dateFrom,
+                    'dateTo' => $this->dateTo,
                     ]
             ))
             ->orderByDesc('created_at')

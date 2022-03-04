@@ -17,6 +17,8 @@ class ProductFilter extends QueryFilter
             'brand' => 'exists:brands,id',
             'priceFrom' => 'numeric',
              'priceTo' => 'numeric',
+            'dateFrom' => 'filled|date_format:d/m/Y',
+            'dateTo' => 'filled|date_format:d/m/Y',
 
         ];
     }
@@ -53,6 +55,18 @@ class ProductFilter extends QueryFilter
     {
         $query->where('price', '<=', $price);
     }
+    public function dateFrom($query, $dateFrom)
+    {
+        $dateFrom = Carbon::createFromFormat('d/m/Y', $dateFrom);
 
+        $query->whereDate('created_at', '>=', $dateFrom);
+    }
+
+    public function dateTo($query, $dateTo)
+    {
+        $dateTo = Carbon::createFromFormat('d/m/Y', $dateTo);
+
+        $query->whereDate('created_at', '<=', $dateTo);
+    }
 
 }

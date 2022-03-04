@@ -13,11 +13,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Tests\TestHelpers;
 
 class ProductsTest extends DuskTestCase
 {
     use DatabaseMigrations;
     use RefreshDatabase;
+    use TestHelpers;
 
     /** @test */
     public function product_test()
@@ -358,4 +360,18 @@ class ProductsTest extends DuskTestCase
         });
 
     }
+
+    /** @test */
+    public function productexample_test()
+    {
+        $product = $this->createProduct();
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->id)
+                ->assertSee($product->name)
+                ->screenshot('exampleRefact');
+        });
+
+    }
+
+
 }

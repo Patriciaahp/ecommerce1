@@ -27,6 +27,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^31.1.0",
         "dropzone": "^6.0.0-beta.2",
+        "flatpickr": "^4.6.9",
         "flexslider": "^2.7.2",
         "glider-js": "^1.7.7"
     }

@@ -21,7 +21,7 @@ trait TestHelpers
     }
 
 
-    public function crearProducto()
+    public function createProduct()
     {
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),
@@ -47,7 +47,10 @@ trait TestHelpers
         $product->images()->create([
             'url' => 'storage/enrf3.png'
         ]);
+
+        return $product;
     }
+
 
 
 }

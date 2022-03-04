@@ -10,66 +10,95 @@
             </x-button-link>
         </div>
     </x-slot>
-    <div class="grid grid-rows-2 space-y-3 " >
+    <x-table-responsive >
+        <div class="grid gap-2 grid-cols-2 grid-rows-3" >
+        <div  class="col-start-2 -space-x-8 " ><b>Número de artículos por página:</b>
     <select class="w-20 h-8 ml-4 " wire:model="per_page">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
         <option value="50">50</option>
     </select>
-
+        </div>
         <div   x-data="{ open: false }">
             <button class="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
 
-            <div class=" ml-2 grid grid-cols-4 " x-show="open">
+            <div class=" grid gap-4 grid-cols-3 grid-rows-3" x-show="open">
                 @foreach($columns as $column)
                     <input  type="checkbox" wire:model="selectedColumns" value="{{$column}}">
                     <label class="col-2" >{{$column}}</label>
                 @endforeach
             </div>
     </div>
-    </div>
-    <div>
-        <select wire:model="category">
-            <option value='all' selected disabled>Categorías</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div>
-        <select wire:model="subcategory">
-            <option value='all' selected disabled>Subcategorías</option>
-            @foreach($subcategories as $subcategory)
-                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div>
-        <select wire:model="brand">
-            <option value='all' selected disabled>Marcas</option>
-            @foreach($brands as $brand)
-                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="p-4">
-        <div class="px-6 py-4">
-            <x-jet-input class="w-20"
-                         wire:model="priceFrom"
-                         type="text"
-                         placeholder="Desde" />
+
+        </div>
+        <div>
+        <div   x-data="{ open: false }">
+            <button class="bg-red-500 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Filtros</button>
+
+            <div class=" space-x-10  ml-2 grid grid-cols-3 grid-rows-5 w-96" x-show="open">
+
+
+                    <select class="h-12 w-40"  wire:model="category">
+                        <option value='all' selected disabled>Categorías</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+
+
+                    <select class="h-12 w-60 " wire:model="subcategory">
+                        <option value='all' selected disabled>Subcategorías</option>
+                        @foreach($subcategories as $subcategory)
+                            <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                        @endforeach
+                    </select>
+
+
+                    <select class="h-12 w-40" wire:model="brand">
+                        <option value='all' selected disabled>Marcas</option>
+                        @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
+
+
+
+                    <div class="px-6 py-4">Precio desde:
+                        <x-jet-input class="w-20"
+                                     wire:model="priceFrom"
+                                     type="text"
+                                     placeholder="Desde" />
+                    </div>
+
+
+                        <div class="px-6 py-4">Precio hasta:
+                            <x-jet-input class="w-20"
+                                         wire:model="priceTo"
+                                         type="text"
+                                         placeholder="Hasta" />
+                        </div>
+
+
+
+
+                    <div class="px-6 py-4">Fecha desde:
+                        <input id="date"
+                               wire:model="dateFrom"
+                               type="text"
+                               placeholder="Desde" />
+                    </div>
+
+
+                    <div class="px-6 py-4">Fecha hasta:
+                        <input id="date"
+                               wire:model="dateTo"
+                               type="text"
+                               placeholder="Hasta" />
+                    </div>
+
         </div>
 
-        <div class="p-4">
-            <div class="px-6 py-4">
-                <x-jet-input class="w-20"
-                             wire:model="priceTo"
-                             type="text"
-                             placeholder="Hasta" />
-            </div>
-
-            <div class="p-4">
         <div class="px-6 py-4">
             <x-jet-input class="w-full"
                          wire:model="search"
@@ -96,7 +125,7 @@
                     </th>
                         @endif
                         @if(in_array('Estado', $selectedColumns))
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <div class="p-4">         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 
                         Estado
 
@@ -305,8 +334,19 @@
                 {{ $products->links() }}
             </div>
         @endif
-    </div>
+
+    </x-table-responsive>
 </div>
 </div>
-</div>
-</div>
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            flatpickr('#date', {
+                dateFormat: 'd/m/Y',
+                altInput: true,
+                altFormat:'d/m/Y'
+            });
+        });
+    </script>
+@endpush

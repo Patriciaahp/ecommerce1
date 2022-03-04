@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Http\Traits\CreateData;
 use App\Models\Category;
 
 use App\Models\Color;
@@ -24,14 +25,14 @@ class ShoppingCartTest extends DuskTestCase
 {
     use RefreshDatabase;
     use DatabaseMigrations;
-    use TestHelpers;
+    use CreateData;
 
 
     /** @test */
     public function it_stores_products_added_to_cart_test()
     {
-        $product = $this->createProduct();
-        $product2 = $this->createProductOther();
+        $product = $this->createProductT();
+        $product2 = $this->createProductOtherT();
         $user = $this->createUser();
 
         $this->browse(function (Browser $browser) use ($user, $product, $product2) {
@@ -70,31 +71,9 @@ class ShoppingCartTest extends DuskTestCase
     /** @test */
     public function productsWithoutColorAndSize_test()
     {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand = $category->brands()->create([
-            'name' => 'marca'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 1,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
@@ -171,39 +150,12 @@ class ShoppingCartTest extends DuskTestCase
     public function productWithColor_test()
     {
 
-        $category3 = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory3 = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Celulares Y Smartphones',
-                'slug' => Str::slug('Smartwatches'),
-                'color' => true
-            ]);
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', true, 'Blanco', '1' );
 
-        $brand3 = $category3->brands()->create([
-            'name' => 'marca3'
-        ]);
-        $product3 = Product::factory()->create([
-            'name' => 'tablet',
-            'slug' => Str::slug('tablet'),
-            'description' => 'tablet 3200px',
-            'price' => 139.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 12,
-            'status' => 2]);
-        $product3->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-        Color::create(['name' => 'Blanco',]);
-        Color::create(['name' => 'Negro',]);
-        $product3->colors()->attach([1 => ['quantity' => 10],
-            2 => ['quantity' => 6]]);
-
-
-        $this->browse(function (Browser $browser) use ($product3) {
-            $browser->visit('/products/' . $product3->id)
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->id)
                 ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('color')
@@ -218,30 +170,9 @@ class ShoppingCartTest extends DuskTestCase
     /** @test */
     public function ShowItemsInShoppingCart_test()
     {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand = $category->brands()->create([
-            'name' => 'marca'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 4,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
+        $product = $this->createCustomProduct('sad', '12.99', '1', '4', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
 
 
         $this->browse(function (Browser $browser) use ($product) {
@@ -262,31 +193,9 @@ class ShoppingCartTest extends DuskTestCase
     /** @test */
     public function ItemsIncrementInShoppingCart_test()
     {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand = $category->brands()->create([
-            'name' => 'marca'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 4,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-
+        $product = $this->createCustomProduct('sad', '12.99', '1', '4', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
@@ -312,31 +221,9 @@ class ShoppingCartTest extends DuskTestCase
     /** @test */
     public function CanNotAddItemsToShoppingCart_test()
     {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand = $category->brands()->create([
-            'name' => 'marca'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 1,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
@@ -420,38 +307,12 @@ class ShoppingCartTest extends DuskTestCase
     public function CanNotAddproductWithColor_test()
     {
 
-        $category3 = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory3 = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Celulares Y Smartphones',
-                'slug' => Str::slug('Smartwatches'),
-                'color' => true
-            ]);
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', true, 'Negro', '1' );
 
-        $brand3 = $category3->brands()->create([
-            'name' => 'marca3'
-        ]);
-        $product3 = Product::factory()->create([
-            'name' => 'tablet',
-            'slug' => Str::slug('tablet'),
-            'description' => 'tablet 3200px',
-            'price' => 139.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 1,
-            'status' => 2]);
-        $product3->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-        Color::create(['name' => 'Blanco',]);
-
-        $product3->colors()->attach([1 => ['quantity' => 1]]);
-
-
-        $this->browse(function (Browser $browser) use ($product3) {
-            $browser->visit('/products/' . $product3->id)
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->id)
                 ->pause(2000)
                 ->assertSee('AGREGAR AL CARRITO DE COMPRAS')
                 ->select('color')
@@ -471,30 +332,9 @@ class ShoppingCartTest extends DuskTestCase
     /** @test */
     public function AssertSeeStock_test()
     {
-        $category = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Smartwatches',
-                'slug' => Str::slug('Smartwatches'),
-            ]);
-
-        $brand = $category->brands()->create([
-            'name' => 'marca'
-        ]);
-        $product = Product::factory()->create([
-            'name' => 'casa',
-            'slug' => Str::slug('casa'),
-            'description' => 'la casa asdd',
-            'price' => 39.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 1,
-            'status' => 2]);
-        $product->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', true, 'Negro', '1' );
 
 
         $this->browse(function (Browser $browser) use ($product) {
@@ -561,40 +401,16 @@ class ShoppingCartTest extends DuskTestCase
     public function AssertSeeStockWithColor_test()
     {
 
-        $category3 = Category::factory()->create(['name' => 'Celulares y tablets',
-            'slug' => Str::slug('Celulares y tablets'),
-            'icon' => '<i class="fas fa-mobile-alt"></i>']);
-        $subcategory3 = Subcategory::create(
-            ['category_id' => 1,
-                'name' => 'Celulares Y Smartphones',
-                'slug' => Str::slug('Smartwatches'),
-                'color' => true
-            ]);
 
-        $brand3 = $category3->brands()->create([
-            'name' => 'marca3'
-        ]);
-        $product3 = Product::factory()->create([
-            'name' => 'tablet',
-            'slug' => Str::slug('tablet'),
-            'description' => 'tablet 3200px',
-            'price' => 139.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 1,
-            'status' => 2]);
-        $product3->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-        Color::create(['name' => 'Blanco',]);
-
-        $product3->colors()->attach([1 => ['quantity' => 1]]);
+        $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', true, 'Negro', '1' );
 
 
-        $this->browse(function (Browser $browser) use ($product3) {
-            $browser->visit('/products/' . $product3->id)
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/products/' . $product->id)
                 ->pause(2000)
-                ->assertSee('Stock disponible: ' . $product3->quantity)
+                ->assertSee('Stock disponible: ' . $product->quantity)
                 ->screenshot('AssertSeeStockWithtColor');
         });
     }

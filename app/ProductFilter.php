@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\QueryFilter;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 

@@ -31,7 +31,7 @@
     </div>
     <div>
         <select wire:model="category">
-            <option value='all' selected disabled>Categoría</option>
+            <option value='all' selected disabled>Categorías</option>
             @foreach($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -39,9 +39,17 @@
     </div>
     <div>
         <select wire:model="subcategory">
-            <option value='all' selected disabled>Subcategoría</option>
+            <option value='all' selected disabled>Subcategorías</option>
             @foreach($subcategories as $subcategory)
                 <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <select wire:model="brand">
+            <option value='all' selected disabled>Marcas</option>
+            @foreach($brands as $brand)
+                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
             @endforeach
         </select>
     </div>

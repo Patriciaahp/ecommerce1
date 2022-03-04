@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Sortable;
@@ -14,22 +16,25 @@ use Illuminate\Http\Request;
 
 class ShowProductsCompletely extends Component
 {
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'category' => ['except' => 'all'],
-        'subcategory' => ['except' => 'all'],
-    ];
     public $per_page = 15;
     public $search;
     public $category = 'all';
     public $categories;
     public $subcategory= 'all';
     public $subcategories;
+    public $brand = 'all';
+    public $brands;
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
 'Fecha de creación', 'Tallas', 'Color', 'Stock'];
     public $selectedColumns = [];
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'category' => ['except' => 'all'],
+        'subcategory' => ['except' => 'all'],
+        'brand' => ['except' => 'all' ],
+    ];
     public function updatingPerPage()
     {
         $this->resetPage();
@@ -38,7 +43,22 @@ class ShowProductsCompletely extends Component
     {
         $this->resetPage();
     }
-
+    public function updatingCategory()
+    {
+        $this->resetPage();
+    }
+    public function updatingSubcategory()
+    {
+        $this->resetPage();
+    }
+    public function updatedCategory($value)
+    {
+        $this->subcategories = Subcategory::where('category_id', $value)->get();
+        $this->brands = Brand::whereHas('categories', function(Builder $query) use ($value) {
+            $query->where('category_id', $value);
+        })->get();
+        $this->reset(['subcategory', 'brand']);
+    }
     public function render(ProductFilter $productFilter)
     {
         return view('livewire.admin.show-products-completely',
@@ -52,6 +72,7 @@ class ShowProductsCompletely extends Component
         $this->selectedColumns = $this->columns;
         $this->categories = Category::all();
         $this->subcategories = Subcategory::all();
+        $this->brands = Brand::all();
 
     }
 
@@ -67,6 +88,7 @@ class ShowProductsCompletely extends Component
                 ['search' => $this->search,
                     'category' => $this->category,
                     'subcategory' => $this->subcategory,
+                    'brand' => $this->brand,
                     ]
             ))
             ->orderByDesc('created_at')

@@ -13,7 +13,8 @@ class ProductFilter extends QueryFilter
         return [
             'search' => 'filled',
             'category' => 'exists:categories,id',
-            'subcategory' => 'exists:subcategories,id'
+            'subcategory' => 'exists:subcategories,id',
+            'brand' => 'exists:brands,id',
 
         ];
     }
@@ -37,9 +38,10 @@ class ProductFilter extends QueryFilter
     public function subcategory($query, $subcategory)
     {
                 $query->where('subcategory_id', $subcategory);
-
-
-
+    }
+    public function brand($query, $brand)
+    {
+        $query->where('brand_id', $brand);
     }
 
 

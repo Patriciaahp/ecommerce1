@@ -220,7 +220,7 @@
                                 <td class="px-6 py-4  text-sm text-gray-500">
                                     {{  $product->sizes->count() ? ' ' : 'Sin stock' }}
                                     @foreach($product->sizes as $size)
-                                        <p>{{ __(ucfirst($size->name)) }}</p>
+                                        <b>{{ __(ucfirst($size->name)) }}</b>
                                         @foreach($size->colors as $color)
                                             <p>{{ __(ucfirst($color->name)) . '->' . $color->pivot->quantity  }}</p>
 

@@ -17,7 +17,7 @@ class SubcategoriesTest extends DuskTestCase
     use RefreshDatabase;
 
     /** @test */
-    public function categories()
+    public function categories_test()
     {
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
             'slug' => Str::slug('Celulares y tablets'),
@@ -27,6 +27,14 @@ class SubcategoriesTest extends DuskTestCase
             ['category_id' => 1,
                 'name' => 'Smartwatches',
                 'slug' => Str::slug('Smartwatches'),
+            ]);
+        $category2 = Category::factory()->create(['name' => 'TV, audio y video',
+            'slug' => Str::slug('TV, audio y video'),
+            'icon' => '<i class="fas fa-tv"></i>']);
+
+        $subcategories2 =  Subcategory::create(
+            ['category_id' => 2, 'name' => 'TV y audio',
+                'slug' => Str::slug('TV y audio'),
             ]);
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
@@ -95,10 +103,12 @@ class SubcategoriesTest extends DuskTestCase
                 ->pause(100)
                 ->clickLink($subcategory->name)
                 ->assertSee($product->name)
+                ->assertDontSee($product1->name)
                 ->assertSee(ucfirst($product->brand->name))
                 ->clickLink($subcategory1->name)
                 ->pause(100)
                 ->assertSee($product1->name)
+                ->assertDontSee($product->name)
                 ->assertSee(ucfirst($product1->brand->name))
                 ->screenshot('subcategoryFilter');
         });

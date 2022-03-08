@@ -65,6 +65,7 @@ class ShoppingCartTest extends DuskTestCase
                 ->assertSee($product2->price)
                 ->screenshot('add_to_cart');
         });
+
     }
 
     /** @test */

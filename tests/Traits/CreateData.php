@@ -2,28 +2,17 @@
 
 namespace Tests\Traits;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Size;
 use App\Models\Subcategory;
 use App\Models\User;
 use Illuminate\Support\Str;
 
 trait CreateData
 {
-
-
-    public function withData(array $custom = [])
-    {
-        return array_merge($this->defaultData(), $custom);
-    }
-
-    protected function defaultData()
-    {
-        return $this->defaultData;
-    }
-
-
     public function createProductT()
     {
         $category = Category::factory()->create(['name' => 'Celulares y tablets',
@@ -53,37 +42,15 @@ trait CreateData
 
         return $product;
     }
+
     public function createProductOtherT()
     {
-        $category2 = Category::factory()->create(['name' => 'TV, audio y video',
-            'slug' => Str::slug('TV, audio y video'),
-            'icon' => '<i class="fas fa-tv"></i>']);
-
-        $subcategory2 = Subcategory::create(
-            ['category_id' => 2, 'name' => 'TV y audio',
-                'slug' => Str::slug('TV y audio'),
-            ]);
-        $category2->brands()->create([
-            'name' => 'hola'
-        ]);
-        $product2 = Product::factory()->create([
-            'name' => 'Tv',
-            'slug' => Str::slug('Tv'),
-            'description' => 'Televisión negra',
-            'price' => 19.99,
-            'subcategory_id' => 1,
-            'brand_id' => 1,
-            'quantity' => 12,
-            'status' => 2]);
-        $product2->images()->create([
-            'url' => 'storage/enrf3.png'
-        ]);
-
-        return $product2;
+        return Product::factory()->create();
     }
 
-    public function createUser(){
-        $user =  User::factory()->create([
+    public function createUser()
+    {
+        $user = User::factory()->create([
             'name' => 'Paco García',
             'email' => 'paco@test.com',
             'password' => bcrypt('1234'),
@@ -92,8 +59,9 @@ trait CreateData
     }
 
 
-    public function createCustomProduct($slug, $price, $subid, $quantity, $status, $name,$bname,$cid,$cname, $cslug,
-$sname, $sslug,$color, $colname, $colquantity){
+    public function createCustomProduct($slug, $price, $subid, $quantity, $status, $name, $bname, $cid, $cname, $cslug,
+                                        $sname, $sslug, $color, $colname, $colquantity)
+    {
         $category = Category::factory()->create([
             'name' => $cname,
             'slug' => $cslug,
@@ -102,8 +70,9 @@ $sname, $sslug,$color, $colname, $colquantity){
         $subcategory = Subcategory::create(
             ['category_id' => $cid,
                 'color' => $color,
-            'name' => $sname,
-            'slug' => $sslug
+                'name' => $sname,
+                'slug' => $sslug,
+
             ]);
         $category->brands()->create([
             'name' => $bname

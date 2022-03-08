@@ -60,19 +60,19 @@ public function see_products_test()
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '1', '1',
             'movilll','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
         $product2 = $this->createCustomProduct('sdaaf', '12.99', '1', '1', '1',
             'movila','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
         $product3 = $this->createCustomProduct('sadsf', '12.99', '1', '1', '1',
             'movilb','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '');
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0');
         $product4 = $this->createCustomProduct('dfsf', '12.99', '1', '1', '1',
             'movilc','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
         $product5 = $this->createCustomProduct('fgvsf', '12.99', '1', '1', '2',
             'movild','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
 
         $this->browse(function (Browser $browser) use ($product, $product2, $product3, $product4, $product5) {
             $browser->visit('/')
@@ -92,7 +92,7 @@ public function see_products_test()
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '6', '2',
             'movilll','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/')
                 ->pause(100)
@@ -117,7 +117,7 @@ public function see_products_test()
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '2', '2',
             'movilll','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/')
                 ->pause(100)

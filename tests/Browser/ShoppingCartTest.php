@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use App\Http\Traits\CreateData;
 use App\Models\Category;
-
 use App\Models\Color;
 use App\Models\Image;
 use App\Models\Product;
@@ -73,7 +72,7 @@ class ShoppingCartTest extends DuskTestCase
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
             'movil','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
@@ -172,7 +171,7 @@ class ShoppingCartTest extends DuskTestCase
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '4', '2',
             'movil','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
 
 
         $this->browse(function (Browser $browser) use ($product) {
@@ -195,7 +194,7 @@ class ShoppingCartTest extends DuskTestCase
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '4', '2',
             'movil','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)
@@ -223,7 +222,7 @@ class ShoppingCartTest extends DuskTestCase
     {
         $product = $this->createCustomProduct('sad', '12.99', '1', '1', '2',
             'movil','nokia', '1', 'moviles y tablets',
-            'moviles-tablets', 'moviles', 'moviles', false, '', '' );
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0' );
 
         $this->browse(function (Browser $browser) use ($product) {
             $browser->visit('/products/' . $product->id)

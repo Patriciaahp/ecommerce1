@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Sortable;
-use App\ProductFilter;
+use App\Filters\ProductFilter;
 use Illuminate\Http\Request;
 
 

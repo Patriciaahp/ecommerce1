@@ -2,7 +2,7 @@
 
 namespace Tests\Browser;
 
-use App\Http\Traits\CreateData;
+use Tests\Traits\CreateData;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Image;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\ProductFilter;
+use App\Filters\ProductFilter;
 use App\ProductQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

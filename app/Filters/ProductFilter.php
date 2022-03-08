@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
-
-use App\QueryFilter;
+namespace App\Filters;
+use App\Filters\QueryFilter;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,7 @@ class ProductFilter extends QueryFilter
             'subcategory' => 'exists:subcategories,id',
             'brand' => 'exists:brands,id',
             'priceFrom' => 'numeric',
-             'priceTo' => 'numeric',
+            'priceTo' => 'numeric',
             'dateFrom' => 'filled|date_format:d/m/Y',
             'dateTo' => 'filled|date_format:d/m/Y',
 
@@ -31,18 +30,18 @@ class ProductFilter extends QueryFilter
     }
     public function category($query, $category)
     {
-         $query->where(function ($query) use($category) {
+        $query->where(function ($query) use($category) {
 
-         $query->whereHas('subcategory', function ($q) use($category) {
-            $q->where('subcategories.category_id', $category);
-        });
+            $query->whereHas('subcategory', function ($q) use($category) {
+                $q->where('subcategories.category_id', $category);
+            });
         });
 
     }
 
     public function subcategory($query, $subcategory)
     {
-                $query->where('subcategory_id', $subcategory);
+        $query->where('subcategory_id', $subcategory);
     }
     public function brand($query, $brand)
     {

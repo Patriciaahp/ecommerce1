@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Traits;
+namespace Tests\Traits;
 
 use App\Models\Category;
 use App\Models\Color;
@@ -11,6 +11,17 @@ use Illuminate\Support\Str;
 
 trait CreateData
 {
+
+
+    public function withData(array $custom = [])
+    {
+        return array_merge($this->defaultData(), $custom);
+    }
+
+    protected function defaultData()
+    {
+        return $this->defaultData;
+    }
 
 
     public function createProductT()

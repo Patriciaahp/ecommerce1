@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Size;
 use App\Models\Subcategory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 trait CreateData
@@ -95,8 +96,6 @@ trait CreateData
 
         return $product;
     }
-
-
 
 
 }

@@ -55,6 +55,24 @@ public function see_products_test()
             });
 }
 
+    /** @test */
+
+    public function see_producto_test()
+    {
+        $product = $this->createCustomProduct2('sad', '12.99', '1', '1', '2',
+            'movil','nokia', '1', 'moviles y tablets',
+            'moviles-tablets', 'moviles', 'moviles', false, '', '0', false);
+
+        $this->browse(function (Browser $browser) use ($product) {
+            $browser->visit('/')
+                ->pause(100)
+                ->assertSee($product->name)
+
+
+                ->screenshot('productsd');
+        });
+    }
+
 /** @test */
     public function not_published_products_test()
     {

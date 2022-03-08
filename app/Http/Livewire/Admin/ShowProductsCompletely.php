@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,9 +32,10 @@ class ShowProductsCompletely extends Component
     public $sortColumn = 'name';
     public $sortDirection = 'asc';
 
+
     use WithPagination;
     public $columns = ['Nombre','Categoría','Estado', 'Precio', 'Descripción', 'Cantidad', 'Marca', 'Subcategoría',
-'Fecha de creación', 'Tallas', 'Color', 'Stock'];
+'Fecha de creación', 'Tallas', 'Color', 'Stock', 'ProductosVendidos'];
     public $selectedColumns = [];
 
     protected $queryString = [
@@ -45,6 +47,7 @@ class ShowProductsCompletely extends Component
         'priceTo' => ['except' => ''],
         'dateFrom' => ['except' => ''],
         'dateTo' => ['except' => ''],
+
 
     ];
     public function updatingPerPage()
@@ -109,14 +112,12 @@ class ShowProductsCompletely extends Component
         $this->subcategories = Subcategory::all();
         $this->brands = Brand::all();
 
-
     }
 
     public function showColumn($column)
     {
         return in_array($column, $this->selectedColumns);
     }
-
         protected function getProducts(ProductFilter $productFilter)
     {
         $products = Product::query()
@@ -129,6 +130,7 @@ class ShowProductsCompletely extends Component
                     'priceTo' => $this->priceTo,
                     'dateFrom' => $this->dateFrom,
                     'dateTo' => $this->dateTo,
+
                     ]
             ))
             ->join('subcategories', 'subcategories.id', 'products.subcategory_id')

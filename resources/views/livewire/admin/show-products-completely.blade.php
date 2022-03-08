@@ -20,6 +20,7 @@
         <option value="50">50</option>
     </select>
         </div>
+
         <div   x-data="{ open: false }">
             <button class="bg-blue-400 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Columnas</button>
 
@@ -37,8 +38,6 @@
             <button class="bg-red-500 ml-2 p-2 mb-2"  x-on:click="open = ! open"> Filtros</button>
 
             <div class=" space-x-10  ml-2 grid grid-cols-3 grid-rows-5 w-96" x-show="open">
-
-
                     <select class="h-12 w-40"  wire:model="category">
                         <option value='all' selected disabled>Categorías</option>
                         @foreach($categories as $category)
@@ -208,6 +207,12 @@
                         Stock
                     </th>
                         @endif
+                @if(in_array('ProductosVendidos', $selectedColumns))
+                <th scope="col" class=" whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500
+                            uppercase tracking-wider">
+                    Productos vendidos
+                </th>
+                        @endif
 
                 </tr>
                 </thead>
@@ -325,6 +330,11 @@
                         <td class="px-12 py-4  text-sm text-gray-500">
                             {{ $product->stock }}
                         </td>
+                            @endif
+                            @if(in_array('ProductosVendidos', $selectedColumns))
+                                <td class="px-12 py-4  text-sm text-gray-500">
+                                    {{ $product->name }}
+                                </td>
                             @endif
 
                     </tr>

@@ -47,6 +47,7 @@ class ProductFilter extends QueryFilter
     {
         $query->where('brand_id', $brand);
     }
+
     public function priceFrom($query, $price)
     {
         $query->where('price', '>=', $price);
